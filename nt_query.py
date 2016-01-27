@@ -11,16 +11,19 @@ class NetworkTotal(object):
 
     def query(self, md5sum):
         url = '{}{}&json=1'.format(self.url, md5sum)
-        req = urllib2.Request(url)
-        rsp = urllib2.urlopen(req)
-        js = json.load(rsp)
-        for key in js:
-            print key
-            if type(js[key]) is list:
-                for value in js[key]:
-                    print '\t{}'.format(value)
-            else:
-                print '\t{}'.format(js[key])
+        try:
+            req = urllib2.Request(url)
+            rsp = urllib2.urlopen(req)
+            js = json.load(rsp)
+            for key in js:
+                print key
+                if type(js[key]) is list:
+                    for value in js[key]:
+                        print '\t{}'.format(value)
+                else:
+                    print '\t{}'.format(js[key])
+        except Exception as e:
+            print str(e)
 
 
 def main():
@@ -29,5 +32,5 @@ def main():
     nt = NetworkTotal()
     nt.query(md5sum)
 
-
-main()
+if __name__ == '__main__':
+    main()
